@@ -64,23 +64,32 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-slate-900 py-24 md:py-32">
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'radial-gradient(circle at 25% 50%, #818cf8 0%, transparent 60%), radial-gradient(circle at 75% 20%, #fb923c 0%, transparent 50%)' }} />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-flex items-center gap-2 bg-white/10 text-white/80 text-sm font-medium px-4 py-1.5 rounded-full mb-6 border border-white/10">
-              🎓 For students. By students.
-            </span>
-            <h1 className="text-4xl md:text-6xl font-heading font-bold text-white leading-tight mb-6">
-              Find Your Perfect<br />
-              <span className="text-gradient">Study Room</span>
-            </h1>
-            <p className="text-lg text-slate-300 max-w-xl mx-auto mb-10">
-              Browse and book quiet, private study rooms in your library. List your own room and earn.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
+      {/* Hero Section with Image - Dark/Light Mode Support */}
+<section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  {/* Background Image with Overlay */}
+  <div className="absolute inset-0">
+    <div className="absolute inset-0 bg-black/50 dark:bg-black/70 z-0"></div>
+    <img 
+      src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600&auto=format" 
+      alt="Study Room Background"
+      className="w-full h-full object-cover"
+    />
+  </div>
+  
+  {/* Content */}
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+      <span className="inline-flex items-center gap-2 bg-white/10 text-white/80 text-sm font-medium px-4 py-1.5 rounded-full mb-6 border border-white/10 backdrop-blur-sm">
+        🎓 For students. By students.
+      </span>
+      <h1 className="text-4xl md:text-6xl font-heading font-bold text-white leading-tight mb-6">
+        Find Your Perfect<br />
+        <span className="text-indigo-300 dark:text-indigo-400">Study Room</span>
+      </h1>
+      <p className="text-lg text-gray-200 dark:text-gray-300 max-w-xl mx-auto mb-10">
+        Browse and book quiet, private study rooms in your library. List your own room and earn.
+      </p>
+      <div className="flex flex-wrap justify-center gap-4">
               <Link to="/rooms" className="btn-primary text-base py-3 px-7 shadow-xl shadow-primary-900/50">
                 Explore Rooms <HiArrowRight className="w-5 h-5" />
               </Link>
@@ -110,7 +119,7 @@ export default function HomePage() {
       <section className="py-20 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="section-heading mb-3">Available Study Rooms</h2>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3">Available Study Rooms</h2>
             <p className="text-slate-500 dark:text-slate-400 max-w-lg mx-auto">The latest rooms added to our platform, ready for you to book right now.</p>
           </div>
           {loading ? (
@@ -123,46 +132,100 @@ export default function HomePage() {
             </div>
           )}
           <div className="text-center mt-12">
-            <Link to="/rooms" className="btn-outline">View All Rooms <HiArrowRight className="w-4 h-4" /></Link>
+            <Link to="/rooms" className="inline-flex items-center gap-2 px-6 py-3 border border-primary-600 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-all duration-300 font-semibold">
+              View All Rooms <HiArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Why StudyNook */}
-      <section className="py-20 bg-white dark:bg-slate-800/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="section-heading mb-3">Why StudyNook?</h2>
-            <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">We built the platform we always wished existed during our own study sessions.</p>
+      {/* Why Choose StudyNook Section with Dark Mode */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-1.5 bg-primary-100 dark:bg-primary-900/30 rounded-full mb-4">
+              <span className="text-sm font-semibold text-primary-700 dark:text-primary-400">WHY CHOOSE US</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+              Why Choose <span className="text-primary-600 dark:text-primary-400">StudyNook?</span>
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+              We provide the best platform for students to find and book study spaces
+            </p>
           </div>
+
+          {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {FEATURES.map((f, i) => (
-              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
-                className="card p-8 text-center hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-primary-50 dark:bg-primary-900/30 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  {f.icon}
-                </div>
-                <h3 className="font-heading font-semibold text-lg text-slate-800 dark:text-white mb-2">{f.title}</h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{f.desc}</p>
-              </motion.div>
-            ))}
+            
+            {/* Feature 1 - Easy Search */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-slate-100 dark:border-slate-700">
+              <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="7" strokeWidth="2"/>
+                  <path d="M16 16L21 21" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Easy Search</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                Find the perfect room with our advanced search filters by amenities, price, and location
+              </p>
+            </div>
+
+            {/* Feature 2 - Instant Booking */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-slate-100 dark:border-slate-700">
+              <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="2"/>
+                  <path d="M8 2V6M16 2V6" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M3 10H21" strokeWidth="2"/>
+                  <path d="M16 14L18 16L22 12" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Instant Booking</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                Book your preferred time slot instantly with real-time availability checking
+              </p>
+            </div>
+
+            {/* Feature 3 - Best Value */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-slate-100 dark:border-slate-700">
+              <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" strokeWidth="2"/>
+                  <path d="M12 8V12L14 14" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M12 16H12.01" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Best Value</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                Competitive hourly rates with transparent pricing and no hidden fees
+              </p>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
       <section className="py-20 bg-slate-50 dark:bg-slate-900">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="section-heading mb-3">What Students Say</h2>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 dark:text-white mb-3">What Students Say</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {TESTIMONIALS.map((t, i) => (
-              <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}
-                className="card p-6">
+              <motion.div 
+                key={t.name} 
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }} 
+                transition={{ delay: i * 0.15 }}
+                className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300"
+              >
                 <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-5">"{t.text}"</p>
                 <div className="flex items-center gap-3">
-                  <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
+                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover ring-2 ring-primary-100 dark:ring-primary-900" />
                   <div>
                     <div className="font-semibold text-sm text-slate-800 dark:text-white">{t.name}</div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">{t.role}</div>
@@ -175,12 +238,12 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-800">
+      <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-700 dark:to-primary-900">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="text-3xl md:text-4xl font-heading font-bold text-white mb-4">Ready to find your focus?</h2>
-            <p className="text-primary-200 mb-8 text-lg">Join thousands of students who book smarter with StudyNook.</p>
-            <Link to="/register" className="inline-flex items-center gap-2 bg-white text-primary-700 font-bold py-3 px-8 rounded-xl hover:bg-primary-50 transition-colors shadow-xl">
+            <p className="text-primary-100 dark:text-primary-200 mb-8 text-lg">Join thousands of students who book smarter with StudyNook.</p>
+            <Link to="/register" className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-primary-700 font-bold py-3 px-8 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
               Get Started Free <HiArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
