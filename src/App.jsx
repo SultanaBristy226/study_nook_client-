@@ -11,7 +11,7 @@ import AddRoomPage from './pages/AddRoomPage';
 import MyListingsPage from './pages/MyListingsPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import AboutPage from './pages/AboutPage'; 
+import AboutPage from './pages/AboutPage';
 
 export default function App() {
   return (
@@ -22,7 +22,7 @@ export default function App() {
         <Route path="/rooms/:id" element={<RoomDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/about" element={<AboutPage />} />  
+        <Route path="/about" element={<AboutPage />} />
       </Route>
       <Route element={<PrivateRoute><PrivateLayout /></PrivateRoute>}>
         <Route path="/add-room" element={<AddRoomPage />} />
