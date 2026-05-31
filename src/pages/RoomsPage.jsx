@@ -5,6 +5,7 @@ import api from '../lib/api';
 import RoomCard from '../components/rooms/RoomCard';
 import Spinner from '../components/ui/Spinner';
 import useTitle from '../hooks/useTitle';
+import { dummyRooms } from '../data/rooms';
 
 const AMENITY_OPTIONS = ['Whiteboard', 'Projector', 'Wi-Fi', 'Power Outlets', 'Quiet Zone', 'Air Conditioning'];
 
@@ -17,10 +18,39 @@ export default function RoomsPage() {
   const [minRate, setMinRate] = useState('');
   const [maxRate, setMaxRate] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [useDummyData, setUseDummyData] = useState(true);
 
   const fetchRooms = useCallback(async () => {
     setLoading(true);
     try {
+      if (useDummyData) {
+        let filtered = [...dummyRooms];
+        
+        if (search) {
+          filtered = filtered.filter(room => 
+            room.name.toLowerCase().includes(search.toLowerCase()) ||
+            room.description.toLowerCase().includes(search.toLowerCase())
+          );
+        }
+        
+        if (selectedAmenities.length) {
+          filtered = filtered.filter(room =>
+            selectedAmenities.every(amenity => room.amenities.includes(amenity))
+          );
+        }
+        
+        if (minRate) {
+          filtered = filtered.filter(room => room.hourlyRate >= parseInt(minRate));
+        }
+        if (maxRate) {
+          filtered = filtered.filter(room => room.hourlyRate <= parseInt(maxRate));
+        }
+        
+        setRooms(filtered);
+        setLoading(false);
+        return;
+      }
+      
       const params = new URLSearchParams();
       if (search) params.set('search', search);
       if (selectedAmenities.length) params.set('amenities', selectedAmenities.join(','));
@@ -32,7 +62,7 @@ export default function RoomsPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, selectedAmenities, minRate, maxRate]);
+  }, [search, selectedAmenities, minRate, maxRate, useDummyData]);
 
   useEffect(() => {
     const t = setTimeout(fetchRooms, 350);
@@ -53,7 +83,6 @@ export default function RoomsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      {/* Header */}
       <div className="bg-gradient-to-br from-primary-900 to-slate-900 py-14 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -65,7 +94,6 @@ export default function RoomsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Search & Filter Bar */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="relative flex-1">
             <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -74,25 +102,24 @@ export default function RoomsPage() {
               placeholder="Search rooms by name..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="input-field pl-10"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
           <button onClick={() => setShowFilters(p => !p)}
-            className={`btn-secondary gap-2 ${showFilters ? 'ring-2 ring-primary-500' : ''}`}>
+            className={`inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${showFilters ? 'ring-2 ring-primary-500' : ''}`}>
             <HiFilter className="w-4 h-4" />
             Filters {selectedAmenities.length || minRate || maxRate ? `(${selectedAmenities.length + (minRate ? 1 : 0) + (maxRate ? 1 : 0)})` : ''}
           </button>
           {hasFilters && (
-            <button onClick={clearFilters} className="btn-secondary gap-1 text-sm text-red-500">
+            <button onClick={clearFilters} className="inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
               <HiX className="w-4 h-4" />Clear
             </button>
           )}
         </div>
 
-        {/* Filter panel */}
         {showFilters && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-            className="card p-5 mb-6">
+            className="bg-white dark:bg-slate-800 rounded-xl p-5 mb-6 shadow-md border border-slate-100 dark:border-slate-700">
             <h4 className="font-semibold text-sm text-slate-700 dark:text-slate-200 mb-3">Amenities</h4>
             <div className="flex flex-wrap gap-2 mb-5">
               {AMENITY_OPTIONS.map(a => (
@@ -108,13 +135,14 @@ export default function RoomsPage() {
             </div>
             <h4 className="font-semibold text-sm text-slate-700 dark:text-slate-200 mb-3">Hourly Rate ($)</h4>
             <div className="flex gap-3">
-              <input type="number" placeholder="Min" value={minRate} onChange={e => setMinRate(e.target.value)} className="input-field w-28 text-sm" min="0" />
-              <input type="number" placeholder="Max" value={maxRate} onChange={e => setMaxRate(e.target.value)} className="input-field w-28 text-sm" min="0" />
+              <input type="number" placeholder="Min" value={minRate} onChange={e => setMinRate(e.target.value)} 
+                className="w-28 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm" min="0" />
+              <input type="number" placeholder="Max" value={maxRate} onChange={e => setMaxRate(e.target.value)} 
+                className="w-28 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm" min="0" />
             </div>
           </motion.div>
         )}
 
-        {/* Results */}
         {loading ? (
           <div className="flex justify-center py-20"><Spinner size="lg" /></div>
         ) : rooms.length === 0 ? (
