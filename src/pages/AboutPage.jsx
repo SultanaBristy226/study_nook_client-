@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { HiArrowRight, HiUsers, HiBookOpen, HiGlobeAlt, HiHeart, HiLightBulb, HiTrophy } from 'react-icons/hi';
+import { HiArrowRight, HiUsers, HiBookOpen, HiGlobeAlt, HiHeart, HiLightBulb } from 'react-icons/hi';
+import { FaTrophy } from 'react-icons/fa';  
 
 export default function AboutPage() {
   return (
@@ -145,7 +146,7 @@ export default function AboutPage() {
                 desc: "We grow and learn from our user community"
               },
               {
-                icon: <HiTrophy className="w-8 h-8" />,
+                icon: <FaTrophy className="w-8 h-8" />,  
                 title: "Excellence",
                 desc: "We strive for the best in everything we do"
               }
